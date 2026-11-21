@@ -1,4 +1,3 @@
-```
 -- ============================================================
 --  المقدمة + حقوق المطور + الصورة (منقولة من ACTOP_777_v2)
 -- ============================================================
@@ -4527,9 +4526,35 @@ table.insert(SKINS, {label = "Soulcrxck", username = "Soulcrxck", exact = true})
 table.insert(SKINS, {label = "H_XRU", username = "H_XRU", exact = true})
 table.insert(SKINS, {label = "silentcrimer", username = "silentcrimer", exact = true})
 local D_HEADLESS, D_KORBLOX, D_HIDE_LEG = HEADLESS, KORBLOX, HIDE_LEG
-local NEW_SKIN_USERNAMES = { }
+-- ===== سكنات ألوان جاهزة (تشتغل دايماً، ما تحتاج يوزر) =====
+do
+local COLOR_SKINS = { {"AG Red", 200, 30, 40}, {"AG Crimson", 140, 10, 30}, {"AG Ruby", 160, 10, 50}, {"AG Wine", 90, 10, 40}, {"AG Coral", 250, 110, 90}, {"AG Orange", 240, 130, 30}, {"AG Amber", 255, 190, 0}, {"AG Gold Neon", 255, 215, 0}, {"AG Peach", 255, 190, 150}, {"AG Lime", 150, 230, 40}, {"AG Neon Green", 57, 255, 20}, {"AG Green", 30, 170, 70}, {"AG Emerald", 20, 120, 70}, {"AG Mint", 150, 240, 200}, {"AG Teal", 0, 128, 128}, {"AG Cyan", 30, 200, 220}, {"AG Sky", 110, 180, 255}, {"AG Ice", 170, 220, 250}, {"AG Blue", 30, 90, 220}, {"AG Sapphire", 15, 50, 160}, {"AG Navy", 15, 25, 80}, {"AG Midnight", 12, 12, 40}, {"AG Violet", 140, 60, 230}, {"AG Lavender", 190, 160, 240}, {"AG Pink", 240, 110, 170}, {"AG Neon Pink", 255, 20, 147}, {"AG Rose Gold", 220, 150, 140}, {"AG Brown", 100, 60, 30}, {"AG Gray", 110, 110, 115}, {"AG Silver", 190, 195, 205}, {"AG Chrome", 210, 215, 225} }
+for _, c in ipairs(COLOR_SKINS) do
+table.insert(SKINS, {label = c[1], color = Color3.fromRGB(c[2], c[3], c[4]), forceKorblox = true, build = true})
+end
+for i = 1, 16 do
+local c = COLOR_SKINS[i * 2 - 1]
+if c then
+table.insert(SKINS, {label = "👻 " .. (string.gsub(c[1], "^AG ", "")), color = Color3.fromRGB(c[2], c[3], c[4]), forceKorblox = true, forceHeadless = true, build = true})
+end
+end
+end
+-- ===== سكنات مشاهير (اليوزر اللي ما ينلقى بينشال من المعرض لحاله) =====
+-- تقدر تضيف أي يوزر هنا
+local NEW_SKIN_USERNAMES = { "Roblox", "builderman", "Shedletsky", "Telamon", "Seranok", "Cindering", "ReeseMcBlox", "KreekCraft", "RealKreek", "StarCode_RealKreek", "mrflimflam", "AlbertsStuff", "Flamingo", "KAICENAT3", "xqcxqcxqcxqc12", "TheRealShowSpeedy", "HiVise77", "UndercoverTubbo", "DenisDaily", "itsfunneh", "Thinknoodles", "Sketch", "LankyBox", "Poke", "InquisitorMaster", "VuxVux", "Vindooly", "Crainer", "iamSanna", "RussoPlays", "AshDubh", "SeeDeng", "Quenty", "Crazyman32", "Anaminus", "JohnDoe", "JaneDoe" }
+do
+local haveName = {}
+for _, sk in ipairs(SKINS) do
+if sk.username then
+haveName[string.lower(sk.username)] = true
+end
+end
 for _, u in ipairs(NEW_SKIN_USERNAMES) do
-table.insert(SKINS, {label = u, username = u})
+if not haveName[string.lower(u)] then
+haveName[string.lower(u)] = true
+table.insert(SKINS, {label = u, username = u, exact = true})
+end
+end
 end
 local LUX_SKINS = { "Linkmon99", "Stickmasterluke", "SonOfSevenless", "Simoon68", "EarlGrey", "zlib", "CV10K", "rip_indra", "Merely", "davidweiss2", "deadx_u", "Teknobytez", "Bourgist", "PolarisxProject", "systask", "kenami", "nutcase123", "Saturniidae", "TigerCode", "InceptionTime", "Murteenee", "Commissioner_Bane", "bIazies", "NirkZarek", "Scoobysnacks1", "GodzGalaxy", "kniryah", "ErmCDH", "Holla4Dolla", "Ieango", "TheMule101", "SuperTrader", "TheSliceOfLife", "NoOneMcNoob", "FP_Nation", "Blizzei", "Woof67", "calwina", "EverythingHurtsx_x", "alphasponge", "ConsiderPhlebas", "Tap_Works", "SirRogerPembleton", "fl8mey", "S1ZE", "Builder_Boy", "Preston_Username", "inkwaves", "mightybaseplate", "DarkenedLord", "TaleOfScripting", "Aken_Aten", "Kilo16820", "00lionn", "Azarth", "Quatos", "Bluecage", "iDiablo", }
 local FANCY_MIN_ACC = 4
@@ -5272,6 +5297,12 @@ pcall(function()
 desc.RightLeg = KORBLOX_ID
 end)
 username = username .. "_K"
+end
+if desc and opts and opts.forceHeadless then
+pcall(function()
+desc.Head = HEADLESS_ASSET
+end)
+username = username .. "_H"
 end
 local flagHead, flagKor = false, false
 if desc then
@@ -8783,7 +8814,7 @@ b.lbl.TextColor3 = on and Color3.new(1, 1, 1) or P.sub
 b.bar.Visible = on
 end
 end
-local TABS = { {"songs", "🎵", T("الأغاني", "Songs")}, {"misc", "⚙", T("الإعدادات", "Settings")}, {"info", "ℹ", T("معلوماتي", "My Info")}, }
+local TABS = { {"main", "⚡", T("الاوتو والاسيست", "Auto & Assist")}, {"skins", "👤", T("السكنات", "Skins")}, {"fx", "✨", T("تأثيرات القتل", "Kill FX")}, {"songs", "🎵", T("الأغاني", "Songs")}, {"extra", "🎭", T("ميزات", "Extras")}, {"misc", "⚙", T("الإعدادات", "Settings")}, {"info", "ℹ", T("معلوماتي", "My Info")}, }
 for n, t in ipairs(TABS) do
 local b = new("TextButton", {Text = "", AutoButtonColor = false, Size = UDim2.new(1, 0, 0, 38), BackgroundTransparency = 1, LayoutOrder = n, ClipsDescendants = true}, sideList)
 corner(b, 10)
@@ -9076,6 +9107,7 @@ local head = section(pSkins, T("المعرض", "GALLERY"))
 local grid = new("Frame", {Size = UDim2.new(1, 0, 0, 0), AutomaticSize = Enum.AutomaticSize.Y, BackgroundTransparency = 1, LayoutOrder = nextOrder(pSkins)}, pSkins)
 new("UIGridLayout", {CellSize = UDim2.new(0, 88, 0, 100), CellPadding = UDim2.new(0, 8, 0, 8), SortOrder = Enum.SortOrder.LayoutOrder}, grid)
 local skinBtns = {}
+local hiddenSkins = 0
 buildSkinGallery = function()
 if closed then
 return
@@ -9086,6 +9118,7 @@ ch:Destroy()
 end
 end
 skinBtns = {}
+hiddenSkins = 0
 head.Text = T("المعرض", "GALLERY") .. " (" .. #SKINS .. ")"
 for k, sk in ipairs(SKINS) do
 local b = new("ImageButton", {AutoButtonColor = false, Image = "", ScaleType = Enum.ScaleType.Crop, BackgroundColor3 = P.card, LayoutOrder = k}, grid)
@@ -9107,6 +9140,23 @@ end
 local uid = nil
 if sk.username then
 uid = userIdOf(sk.username)
+if not uid then
+for _ = 1, 3 do
+task.wait(1.2)
+uid = userIdOf(sk.username)
+if uid then
+break
+end
+end
+if not uid then
+if b.Parent then
+b.Visible = false
+hiddenSkins = hiddenSkins + 1
+head.Text = T("المعرض", "GALLERY") .. " (" .. math.max(#SKINS - hiddenSkins, 0) .. ")"
+end
+return
+end
+end
 elseif SKIN.userId > 0 then
 uid = SKIN.userId
 elseif SKIN.username ~= "" then
@@ -9641,6 +9691,7 @@ end, function(v)
 return tostring(v)
 end)
 end
+local THEME_APPLY_SAVED
 local pMisc = newPage("misc") do
 local function bombIndex()
 for k, e in ipairs(KFX.list) do
@@ -9748,6 +9799,199 @@ uiScale.Scale = v
 end, function(v)
 return string.format("%d%%", math.floor(v * 100 + 0.5))
 end)
+do
+section(pMisc, T("لون السكربت", "SCRIPT COLOR"))
+local THEME_FILE = "ACTOP_theme.txt"
+-- {id, عربي, English, hue(0-1), saturation, brightness}
+local THEMES = {
+    {"green", "أخضر", "Green", 0.4167, 1, 1},
+    {"red", "أحمر", "Red", 0.985, 0.78, 1},
+    {"orange", "برتقالي", "Orange", 0.075, 0.9, 1},
+    {"yellow", "أصفر", "Yellow", 0.14, 0.88, 1},
+    {"cyan", "سماوي", "Cyan", 0.5, 0.9, 1},
+    {"blue", "أزرق", "Blue", 0.6, 0.82, 1},
+    {"purple", "بنفسجي", "Purple", 0.76, 0.85, 1},
+    {"lilac", "ليلكي", "Lilac", 0.75, 0.45, 1},
+    {"pink", "وردي", "Pink", 0.92, 0.6, 1},
+    {"white", "أبيض", "White", 0, 0, 0.88},
+}
+local function makePalette(h, s, vA)
+    local bgS = math.min(s * 0.43, 0.5)
+    return {
+        bg0 = Color3.fromHSV(h, bgS, 0.028),
+        bg1 = Color3.fromHSV(h, bgS * 0.95, 0.06),
+        card = Color3.fromHSV(h, bgS, 0.095),
+        card2 = Color3.fromHSV(h, bgS, 0.135),
+        line = Color3.fromHSV(h, math.min(s * 0.65, 0.7), 0.28),
+        a1 = Color3.fromHSV(h, s, vA),
+        a2 = Color3.fromHSV(h, math.min(s + 0.05, 1), vA * 0.78),
+        text = Color3.fromHSV(h, 0.08 * s, 1),
+        sub = Color3.fromHSV(h, 0.26 * s, 0.76),
+    }
+end
+-- الألوان الحالية اللي بنبدّلها (واجهة السكربت + صندوق الحقوق)
+local tracked = {}
+for _, r in ipairs({"bg0", "bg1", "card", "card2", "line", "a1", "a2", "text", "sub"}) do
+    tracked[#tracked + 1] = {role = r, col = P[r]}
+end
+tracked[#tracked + 1] = {role = "a1", col = Color3.fromRGB(0, 230, 118)}
+local function same(a, b)
+    return math.abs(a.R - b.R) < 0.006 and math.abs(a.G - b.G) < 0.006 and math.abs(a.B - b.B) < 0.006
+end
+local function roleOf(c)
+    for _, t in ipairs(tracked) do
+        if same(c, t.col) then return t.role end
+    end
+    return nil
+end
+local swatches = {}
+local curId, curHue = "green", 150
+local function mark(id)
+    curId = id
+    for k, sw in pairs(swatches) do
+        sw.stroke.Thickness = (k == id) and 3 or 0
+    end
+end
+local function save(str)
+    pcall(function()
+        if writefile then writefile(THEME_FILE, str) end
+    end)
+end
+local function recolor(np)
+    local roots = {gui}
+    local parents = {gui.Parent}
+    pcall(function() if gethui then parents[#parents + 1] = gethui() end end)
+    pcall(function() parents[#parents + 1] = game:GetService("CoreGui") end)
+    pcall(function() parents[#parents + 1] = lp.PlayerGui end)
+    local seen = {}
+    for _, par in ipairs(parents) do
+        local ok, cg = pcall(function() return par:FindFirstChild("ActopCreditsGui") end)
+        if ok and cg and not seen[cg] then
+            seen[cg] = true
+            roots[#roots + 1] = cg
+        end
+    end
+    local jobs, gjobs = {}, {}
+    local function consider(inst, prop)
+        local ok, c = pcall(function() return inst[prop] end)
+        if ok and typeof(c) == "Color3" then
+            local role = roleOf(c)
+            if role then jobs[#jobs + 1] = {inst, prop, role} end
+        end
+    end
+    local function visit(inst)
+        if inst:IsA("GuiObject") then
+            if not inst:GetAttribute("NoTheme") then consider(inst, "BackgroundColor3") end
+            if inst:IsA("TextLabel") or inst:IsA("TextButton") or inst:IsA("TextBox") then consider(inst, "TextColor3") end
+            if inst:IsA("TextBox") then consider(inst, "PlaceholderColor3") end
+            if inst:IsA("ImageLabel") or inst:IsA("ImageButton") then consider(inst, "ImageColor3") end
+            if inst:IsA("ScrollingFrame") then consider(inst, "ScrollBarImageColor3") end
+        elseif inst:IsA("UIStroke") then
+            consider(inst, "Color")
+        elseif inst:IsA("UIGradient") then
+            local ok, cs = pcall(function() return inst.Color end)
+            if ok and cs then
+                local changed, kps = false, {}
+                for _, kp in ipairs(cs.Keypoints) do
+                    local role = roleOf(kp.Value)
+                    if role then
+                        changed = true
+                        kps[#kps + 1] = ColorSequenceKeypoint.new(kp.Time, np[role])
+                    else
+                        kps[#kps + 1] = kp
+                    end
+                end
+                if changed then gjobs[#gjobs + 1] = {inst, ColorSequence.new(kps)} end
+            end
+        end
+    end
+    for _, r in ipairs(roots) do
+        visit(r)
+        for _, d in ipairs(r:GetDescendants()) do visit(d) end
+    end
+    for _, j in ipairs(jobs) do
+        pcall(function() j[1][j[2]] = np[j[3]] end)
+    end
+    for _, j in ipairs(gjobs) do
+        pcall(function() j[1].Color = j[2] end)
+    end
+    for r, c in pairs(np) do P[r] = c end
+    for _, t in ipairs(tracked) do t.col = np[t.role] end
+    GRAD = ColorSequence.new(P.a1, P.a2)
+end
+local function applyById(id)
+    for _, th in ipairs(THEMES) do
+        if th[1] == id then
+            recolor(makePalette(th[4], th[5], th[6]))
+            mark(id)
+            curHue = math.floor(th[4] * 360 + 0.5)
+            save(id)
+            return true
+        end
+    end
+    return false
+end
+
+local grid = cardFrame(pMisc, 98)
+new("UIGridLayout", {CellSize = UDim2.new(0, 84, 0, 34), CellPadding = UDim2.new(0, 8, 0, 8), SortOrder = Enum.SortOrder.LayoutOrder, HorizontalAlignment = Enum.HorizontalAlignment.Center, VerticalAlignment = Enum.VerticalAlignment.Center}, grid)
+for i, th in ipairs(THEMES) do
+    local pal = makePalette(th[4], th[5], th[6])
+    local b = new("TextButton", {Text = T(th[2], th[3]), AutoButtonColor = false, BackgroundColor3 = pal.a1, TextColor3 = Color3.fromRGB(10, 10, 10), Font = Enum.Font.GothamBlack, TextSize = 13, LayoutOrder = i}, grid)
+    b:SetAttribute("NoTheme", true)
+    corner(b, 10)
+    local st = new("UIStroke", {Color = Color3.new(1, 1, 1), Thickness = 0, ApplyStrokeMode = Enum.ApplyStrokeMode.Border}, b)
+    swatches[th[1]] = {stroke = st}
+    press(b)
+    b.MouseButton1Click:Connect(function()
+        if applyById(th[1]) then
+            pcall(toast, T("تم تغيير اللون ✓", "Colour changed ✓"), "ok")
+        end
+    end)
+end
+mark("green")
+
+-- لون مخصص: أي درجة لون
+local pendingHue, hueBusy = nil, false
+slider(pMisc, T("لون مخصص (درجة اللون)", "Custom colour (hue)"), 0, 360, 5, function()
+    return curHue
+end, function(v)
+    curHue = v
+    pendingHue = v
+    if hueBusy then return end
+    hueBusy = true
+    task.spawn(function()
+        while pendingHue do
+            local h = pendingHue
+            pendingHue = nil
+            recolor(makePalette(h / 360, 0.85, 1))
+            mark(nil)
+            save("hue:" .. tostring(math.floor(h + 0.5)))
+            task.wait(0.12)
+        end
+        hueBusy = false
+    end)
+end, function(v)
+    return tostring(math.floor(v + 0.5)) .. "°"
+end)
+
+-- يرجّع اللون المحفوظ آخر مرة
+THEME_APPLY_SAVED = function()
+    local ok, data = pcall(function()
+        if isfile and readfile and isfile(THEME_FILE) then return readfile(THEME_FILE) end
+        return nil
+    end)
+    if not ok or type(data) ~= "string" then return end
+    data = data:gsub("%s", "")
+    local hv = data:match("^hue:(%d+)")
+    if hv then
+        curHue = tonumber(hv)
+        recolor(makePalette(curHue / 360, 0.85, 1))
+        mark(nil)
+    elseif data ~= "" and data ~= "green" then
+        applyById(data)
+    end
+end
+end
 if CINE.on then
 KFX.prev = KFX.current
 selectEffect(bombIndex())
@@ -9863,10 +10107,10 @@ sliding = nil
 dragging = false
 end
 end))
-showTab("info")
+showTab("main")
 frame.Visible = true
 tw(uiScale, 0.45, {Scale = WIDGET_SCALE}, Enum.EasingStyle.Back)
 if BUILD_CREDITS then pcall(BUILD_CREDITS) end
+if THEME_APPLY_SAVED then pcall(THEME_APPLY_SAVED) end
 if PLAY_INTRO then pcall(PLAY_INTRO) end
 end __iife38564() end
-```

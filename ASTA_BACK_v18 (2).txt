@@ -1,4 +1,3 @@
-```
 -- ============================================================
 --  المقدمة + حقوق المطور + الصورة (منقولة من ACTOP_777_v2)
 -- ============================================================
@@ -6765,4 +6764,3 @@ tw(uiScale, 0.45, {Scale = WIDGET_SCALE}, Enum.EasingStyle.Back)
 if BUILD_CREDITS then pcall(BUILD_CREDITS) end
 if PLAY_INTRO then pcall(PLAY_INTRO) end
 end __iife38564() end
-```
